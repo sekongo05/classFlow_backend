@@ -1,0 +1,43 @@
+spring:
+  application:
+    name: classFlow
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:dev}
+  jpa:
+    open-in-view: false
+    properties:
+      hibernate:
+        jdbc:
+          time_zone: UTC
+  jackson:
+    time-zone: UTC
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
+server:
+  port: 8080
+  error:
+    include-stacktrace: never
+    include-message: never
+    include-binding-errors: never
+    include-exception: false
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    operations-sorter: method
+
+classflow:
+  establishment-name: ${CLASSFLOW_ESTABLISHMENT_NAME:ClassFlow Institut Supérieur}
+  jwt:
+    secret: ${CLASSFLOW_JWT_SECRET:classflow-dev-secret-key-change-in-production-at-least-256-bits-long}
+    access-token-expiration-ms: ${CLASSFLOW_JWT_ACCESS_EXPIRATION_MS:900000}
+    refresh-token-expiration-ms: ${CLASSFLOW_JWT_REFRESH_EXPIRATION_MS:604800000}
+  attendance:
+    late-tolerance-minutes: ${CLASSFLOW_LATE_TOLERANCE_MINUTES:15}
+    max-late-minutes: ${CLASSFLOW_MAX_LATE_MINUTES:60}
+    scheduler-interval-ms: ${CLASSFLOW_SCHEDULER_INTERVAL_MS:60000}
