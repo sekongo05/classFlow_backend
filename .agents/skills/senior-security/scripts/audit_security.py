@@ -41,11 +41,15 @@ for fn in sorted(os.listdir(ctrl_dir)):
         if "@PreAuthorize" not in annotations_block:
             issues.append(f"[MISSING_PREAUTHORIZE] {fn}#{method_name} n'a pas de @PreAuthorize")
 
-# 3. Check application.yml error shielding
-app_yml = open("src/main/resources/application.yml").read()
-for prop in ["include-stacktrace: never", "include-message: never", "include-exception: false"]:
-    if prop not in app_yml:
-        issues.append(f"[ERROR_SHIELD] Propriété manquante dans application.yml : {prop}")
+# 3. Check application.properties error shielding
+app_props = open("src/main/resources/application.properties").read()
+for prop in [
+    "server.error.include-stacktrace=never",
+    "server.error.include-message=never",
+    "server.error.include-exception=false",
+]:
+    if prop not in app_props:
+        issues.append(f"[ERROR_SHIELD] Propriété manquante dans application.properties : {prop}")
 
 # 4. Check GlobalExceptionHandler never leaks ex.getMessage() in technical handlers
 geh_path = os.path.join(ROOT, "exception", "GlobalExceptionHandler.java")

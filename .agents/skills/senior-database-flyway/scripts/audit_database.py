@@ -19,17 +19,17 @@ for fn in sorted(os.listdir(ENTITY_DIR)):
         if "EnumType.STRING" not in arg:
             issues.append(f"[ENUM_ORDINAL] {fn} utilise @Enumerated sans EnumType.STRING")
 
-# 2. Check open-in-view: false and ddl-auto: validate
-app_yml = open("src/main/resources/application.yml").read()
-if "open-in-view: false" not in app_yml:
-    issues.append("[JPA_CONFIG] spring.jpa.open-in-view: false manquant dans application.yml")
+# 2. Check open-in-view=false and ddl-auto=validate
+app_props = open("src/main/resources/application.properties").read()
+if "spring.jpa.open-in-view=false" not in app_props:
+    issues.append("[JPA_CONFIG] spring.jpa.open-in-view=false manquant dans application.properties")
 
-for env in ["application-dev.yml", "application-prod.yml"]:
+for env in ["application-dev.properties", "application-prod.properties"]:
     env_txt = open(f"src/main/resources/{env}").read()
-    if "ddl-auto: validate" not in env_txt:
-        issues.append(f"[DDL_AUTO] ddl-auto: validate manquant dans {env}")
-    if "enabled: true" not in env_txt:
-        issues.append(f"[FLYWAY_DISABLED] flyway.enabled: true manquant dans {env}")
+    if "spring.jpa.hibernate.ddl-auto=validate" not in env_txt:
+        issues.append(f"[DDL_AUTO] spring.jpa.hibernate.ddl-auto=validate manquant dans {env}")
+    if "spring.flyway.enabled=true" not in env_txt:
+        issues.append(f"[FLYWAY_DISABLED] spring.flyway.enabled=true manquant dans {env}")
 
 # 3. Check Flyway V1 indexes and PRIMARY KEYs
 sql = open(FLYWAY_V1).read()
