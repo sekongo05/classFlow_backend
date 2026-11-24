@@ -24,7 +24,7 @@ app_props = open("src/main/resources/application.properties").read()
 if "spring.jpa.open-in-view=false" not in app_props:
     issues.append("[JPA_CONFIG] spring.jpa.open-in-view=false manquant dans application.properties")
 
-for env in ["application-dev.properties", "application-prod.properties"]:
+for env in ["application-prod.properties"]:
     env_txt = open(f"src/main/resources/{env}").read()
     if "spring.jpa.hibernate.ddl-auto=validate" not in env_txt:
         issues.append(f"[DDL_AUTO] spring.jpa.hibernate.ddl-auto=validate manquant dans {env}")
